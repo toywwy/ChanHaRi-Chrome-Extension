@@ -36,6 +36,7 @@ class taskThread(threading.Thread):
 
 """
 
+
 def fullpage_screenshot(driver, file):
     print("Starting chrome full page screenshot workaround ...")
 
@@ -100,6 +101,7 @@ def fullpage_screenshot(driver, file):
     print("Finishing chrome full page screenshot workaround...")
     return True
 
+
 def waitForElement(driver, xpath):
     timeout = 5
     try:
@@ -109,8 +111,10 @@ def waitForElement(driver, xpath):
         errorMessage = "TimeoutException & No Such Element"
         print(errorMessage)
 
+
 def connectUrl(driver, xpath, contents):
     driver.get(contents[0])
+
 
 def inputText(driver, xpath, contents):
     splitPath = "//" + xpath.split('/')[-1]
@@ -118,21 +122,23 @@ def inputText(driver, xpath, contents):
     driver.find_element_by_xpath(splitPath).send_keys(contents[0])
     return "inputText"
 
+
 def clickButton(driver, xpath, contents):
     splitPath = "//" + xpath.split('/')[-2] + "/" + xpath.split('/')[-1]
     waitForElement(driver, splitPath)
     driver.find_element_by_xpath(splitPath).click()
     return "clickButton"
 
+
 def drawImage(driver, element, saveName):
     location = element.location
     size = element.size
     print(location)
     print(size)
-    screenshotName =  "Screenshot" + threading.current_thread().getName() + ".png"
+    screenshotName = "Screenshot" + threading.current_thread().getName() + ".png"
     fullpage_screenshot(driver, screenshotName)
-    #driver.save_screenshot('screenshot.png')
-    #time.sleep(2)
+    # driver.save_screenshot('screenshot.png')
+    # time.sleep(2)
     im = Image.open(screenshotName)
     left = location['x']
     top = location['y']
@@ -143,42 +149,44 @@ def drawImage(driver, element, saveName):
     print(top)
     print(right)
     print(bottom)
-    im = im.crop((int(left), int(top), int(right), int(bottom))  )
+    im = im.crop((int(left), int(top), int(right), int(bottom)))
     im.save(saveName)
 
+
 def drawCanvas(driver, element, saveName, canv):
-    drawImage(driver,element,'pdfTemp.png')
-    canv.drawImage('pdfTemp.png',0,0)
+    drawImage(driver, element, 'pdfTemp.png')
+    canv.drawImage('pdfTemp.png', 0, 0)
+
 
 def onCrawling(driver, xpath, contents):
     splitPath = "//" + xpath.split('/')[-2] + "/" + xpath.split('/')[-1]
     imagePath = "//" + xpath.split('/')[-4] + "/" + xpath.split('/')[-3] + "/" + xpath.split('/')[-2]
 
-    #print(type(targetData))
+    # print(type(targetData))
 
-    if(contents[0] == "PICKLE"):
+    if (contents[0] == "PICKLE"):
         waitForElement(driver, splitPath)
         targetData = driver.find_element_by_xpath(splitPath).text
         with open(contents[1], 'wb') as f:
-            pickle.dump(targetData,f)
+            pickle.dump(targetData, f)
 
-    elif(contents[0] == "JSON"):
+    elif (contents[0] == "JSON"):
         waitForElement(driver, splitPath)
         targetData = driver.find_element_by_xpath(splitPath).text
         with open(contents[1], 'w') as f:
-            json.dump(targetData,f, ensure_ascii=False)
+            json.dump(targetData, f, ensure_ascii=False)
 
-    elif(contents[0] == "TXT"):
+    elif (contents[0] == "TXT"):
         waitForElement(driver, splitPath)
         targetData = driver.find_element_by_xpath(splitPath).text
-        f = open(contents[1],'w+')
+        f = open(contents[1], 'w+')
         f.write(targetData)
         f.close()
 
     elif (contents[0] == "PNG"):
         print("[PNG]")
-        #png = driver.get_screenshot_as_png()
-        #open(contents[1], "wb").write(png)
+        # png = driver.get_screenshot_as_png()
+        # open(contents[1], "wb").write(png)
         waitForElement(driver, imagePath)
         element = driver.find_element_by_xpath(imagePath)
         drawImage(driver, element, contents[1])
@@ -193,77 +201,83 @@ def onCrawling(driver, xpath, contents):
 
 
 def isNumber(s):
-  try:
-    float(s)
-    return True
-  except ValueError:
-    return False
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+
 
 def onIf(driver, xpath, contents):
-    #targetValue = driver.find_element_by_xpath(xpath).get_attribute("text")
+    # targetValue = driver.find_element_by_xpath(xpath).get_attribute("text")
     waitForElement(driver, xpath)
     targetValue = driver.find_element_by_xpath(xpath).text
     targetValue = targetValue.strip()
 
-    if(isNumber(targetValue)):
+    if (isNumber(targetValue)):
         targetValue = float(targetValue)
 
-    if(contents[0] == "gt"):
-        if(targetValue > contents[1]):
-            prePlaying=True
-            isPlaying=True
+    if (contents[0] == "gt"):
+        if (targetValue > contents[1]):
+            prePlaying = True
+            isPlaying = True
             return True
         else:
-            prePlaying=False
-            isPlaying=False
+            prePlaying = False
+            isPlaying = False
             return False
-    if(contents[0] == "lt"):
-        if(targetValue < contents[1]):
-            prePlaying=True
-            isPlaying=True
+    if (contents[0] == "lt"):
+        if (targetValue < contents[1]):
+            prePlaying = True
+            isPlaying = True
             return True
         else:
-            prePlaying=False
-            isPlaying=False
+            prePlaying = False
+            isPlaying = False
             return False
-    if(contents[0] == "eq"):
-        if(targetValue == contents[1]):
-            prePlaying=True
-            isPlaying=True
+    if (contents[0] == "eq"):
+        if (targetValue == contents[1]):
+            prePlaying = True
+            isPlaying = True
             return True
         else:
-            prePlaying=False
-            isPlaying=False
+            prePlaying = False
+            isPlaying = False
             return False
 
     return False
 
+
 def onElse(driver, xpath, contents):
-    if(prePlaying):
+    if (prePlaying):
         isPlaying = False
     else:
         isPlaying = True
 
     return "OnElse"
 
+
 def onFor(driver, xpath, contents):
     return "onFor"
+
 
 def onEnd(driver, xpath, contents):
     isPlaying = True
     return "onEnd"
 
+
 commandFunc = {
-    "URL":connectUrl,
-    "INPUT":inputText,
-    "CLICK":clickButton,
-    "CRAWLING":onCrawling,
-    "IF":onIf,
-    "ELIF":onIf,
-    "ELSE":onElse,
-    "END":onEnd,
-    "FOR":onFor
+    "URL": connectUrl,
+    "INPUT": inputText,
+    "CLICK": clickButton,
+    "CRAWLING": onCrawling,
+    "IF": onIf,
+    "ELIF": onIf,
+    "ELSE": onElse,
+    "END": onEnd,
+    "FOR": onFor
 }
+
 
 def runTask(data):
     driver = webdriver.Chrome("chromedriver.exe")
@@ -276,22 +290,22 @@ def runTask(data):
         return jsonify(resultCode=1)
 
 
-@app.route('/_analysis_json', methods=['GET', 'OPTIONS','POST'])
+@app.route('/_analysis_json', methods=['GET', 'OPTIONS', 'POST'])
 @cross_origin()
 def analysis_json():
     print("[analysis_json]")
 
     isPlaying = True
 
-    #data = json.dumps({})
+    # data = json.dumps({})
     ###open local json file
-    #if request.method == 'GET':
+    # if request.method == 'GET':
     #    with open('commands.json') as f:
     #        data = json.load(f)
 
     ###receive ajax json
-    #else:
-        #data = request.get_json(force=True)
+    # else:
+    # data = request.get_json(force=True)
     try:
         data = request.get_json(force=True)
         print(data)
@@ -299,64 +313,67 @@ def analysis_json():
         print(data["actions"])
         curTaskId = data["taskId"]
         curActions = data["actions"]
-        #data.taskId  data.actions
+        # data.taskId  data.actions
     except:
         return jsonify(resultCode=1)
 
     taskThread = Thread(name=curTaskId, target=runTask, args=[curActions])
     taskThreadList.append(taskThread)
     taskThread.start()
-    #taskThread.join()
+    # taskThread.join()
 
-    #taskThreadElement = taskThread(name="taskId")
-    #taskThreadList.append(taskThreadElement)
+    # taskThreadElement = taskThread(name="taskId")
+    # taskThreadList.append(taskThreadElement)
 
-    #taskThreadElement.start(data)
-    #taskThreadElement.run(data)
-    #taskThreadElement.join()
+    # taskThreadElement.start(data)
+    # taskThreadElement.run(data)
+    # taskThreadElement.join()
 
     time.sleep(5)
     print("[End : analysis_json]")
     return jsonify(resultCode=1, taskId=taskThread.getName())
-  
-@app.route('/_add_numbers', methods=['OPTIONS','POST'])
+
+
+@app.route('/_add_numbers', methods=['OPTIONS', 'POST'])
 @cross_origin()
-#@crossdomain(origin='*')
+# @crossdomain(origin='*')
 def add_numbers():
     print("[add_numbers]")
-    #print(request)
-    #print(request.args)
-    #print(request.args.get('xpath'))
+    # print(request)
+    # print(request.args)
+    # print(request.args.get('xpath'))
     driver = webdriver.Chrome("C:\\JoChanhee\chromedriver.exe")
 
     driver.get("http://www.naver.com")
 
-   # if request.headers['Content-Type'] == 'application/json':
-   #     return "JSON Message: " + json.dumps(request.json)
-   # else:
-   #     return "415 Unsupported Media Type ;)"
-   #print(request.get_json(force=True))
+    # if request.headers['Content-Type'] == 'application/json':
+    #     return "JSON Message: " + json.dumps(request.json)
+    # else:
+    #     return "415 Unsupported Media Type ;)"
+    # print(request.get_json(force=True))
     data = request.get_json(force=True)
     print(data)
-   # a = request.args.get('a', 0, type=int)
-   # b = request.args.get('b', 0, type=int)
-    #return jsonify(result=0)
-    #return jsonify(result=0)
+    # a = request.args.get('a', 0, type=int)
+    # b = request.args.get('b', 0, type=int)
+    # return jsonify(result=0)
+    # return jsonify(result=0)
     return jsonify(result=0)
+
 
 @app.route('/')
 def index():
-   
-    #driver = webdriver.Chrome("C:\\JoChanhee\chromedriver.exe")
-    #driver.get("http://www.naver.com")
-    #time.sleep(4)
-    #return 'Hello World'
+    # driver = webdriver.Chrome("C:\\JoChanhee\chromedriver.exe")
+    # driver.get("http://www.naver.com")
+    # time.sleep(4)
+    # return 'Hello World'
     return render_template('index.html')
+
 
 @app.route('/chanhee')
 def chanhee():
-    #return render_template('index.html')
+    # return render_template('index.html')
     return 'Hi Chanhee'
+
 
 if __name__ == "__main__":
     app.run(debug=True)
