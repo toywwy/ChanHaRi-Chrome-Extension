@@ -45,7 +45,7 @@ $(function () {
         if(taskId !=this.id) {
             taskId = this.id;
 
-            alert("selected id : " + taskId);
+            // alert("selected id : " + taskId);
 
             //TODO 새로 지우고 다시 update를 해야한다.
             while (counter>1) {
@@ -69,13 +69,11 @@ $(function () {
             {
                 $('input#x_path1').val('');
                 $('input#input_text1').val('');
-                var command = $('select#select_command1').val();
-                if (command == 'CRAWLING')//CRAWLING 선택될 경우
-                    $('select#select_extention1');
-                //TODO command에 따라서 각각 초기화해 줘야 할 것들이 있다. 주리에게 받으면 진행
-                
-                $('select#select_command1').prop('selectedIndex',-1);
 
+                $('select#select_command1').val('Select commands').change();
+                $("button.select_logic"+counter).remove();//무조건 다 지운다. 빈거이기 때문
+                $('select#select_extention1').val('Select Extention').change();//지우지못했어 css만 지웠음..
+                $('div#div_select1').hide();
 
             }
 
@@ -369,10 +367,16 @@ $(function () {
         $(document).on("click", "#delete", function (e) {
             console.log("delete-clicked")
             if (counter > 1) {
+                //UI Delete
                 $("div#form" + (counter)).remove();
                 $("br:last").remove();
+                $("button.select_logic"+counter).remove();
+
                 counter--;
-                deleteQuery();
+                deleteQuery();//Data Delete
+
+
+
             }
         });
 
@@ -381,67 +385,66 @@ $(function () {
             var target = $(e.target);
             var opt = target.val();
             console.log("selected opt = " + opt);
-
+            $("button.select_logic"+counter).remove();//이전에 모든거지우고 새로추가
+            
             if (opt == 'CRAWLING') {
-                var $ele,
-                    apphtml = $(
-                        "<div data-role='ui-field-contain'>" +
-                        "<label for='select-extention' class='select ui-hidden-accessible'>select extention</label>" +
-                        "<select name='select-extention' class='select-extention' data-native-menu='true' id='select_extention" + counter + "'>" +
-                        "<option>Select commands</option>" +
-                        "<option value='TXT'>TXT</option>" +
-                        "<option value='PNG'>PNG</option>" +
-                        "<option value='PICKLE'>PICKLE</option>" +
-                        "<option value='JSON'>JSON</option>" +
-                        "<option value='PDF'>PDF</option>" +
-                        "</select>" +
-                        "</div>");
+                $('#div_select'+counter).show();
+                // var apphtml = $(
+                //     "<label for='select-extention' class='select ui-hidden-accessible'>select extention</label>" +
+                //
+                //     '<div class="ui-select">'+
+                //         "<select name='select-extention' class='select-extention' data-native-menu='true' id='select_extention" + counter + "'>" +
+                //         "<option value='default'>Select commands</option>" +
+                //         "<option value='TXT'>TXT</option>" +
+                //         "<option value='PNG'>PNG</option>" +
+                //         "<option value='PICKLE'>PICKLE</option>" +
+                //         "<option value='JSON'>JSON</option>" +
+                //         "<option value='PDF'>PDF</option>" +
+                //         "</select></div>");
+                // // $(apphtml).appendTo($(e.target).parent()).parent().trigger("create");
+                //
+                // // console.log(($(e.target).parent()).parent());
+                // $(apphtml).appendTo($('#div_select'+counter));
 
-                $ele = $(apphtml).appendTo($(e.target).parent()).parent().trigger("create");
-                $ele.attr("id", "select-extention" + counter)
 
             }
 
             if (opt == 'IF' || opt === 'ELSE' || opt === 'ELIF' || opt === 'FOR') {
-                var $ele,
-                    apphtml = $("<div data-role='controlgroup ui-block-b' >" +
-                        "<button type='button' data-theme='b' data-icon='arrow-r'></button>" +
-                        "</div>");
+                var apphtml;
                 switch (opt) {
                     case 'IF':
                         apphtml = $("<div data-role='controlgroup ui-block-b' >" +
-                            "<button type='button' data-theme='b' data-icon='arrow-r' data-mini='true'>IF</button>" +
+                            "<button type='button' data-theme='b' data-icon='arrow-r' data-mini='true' id='select_if" + counter + "' class='select_logic" + counter + "'>IF</button>" +
                             "</div>");
                         break;
                     case 'ELSE':
                         apphtml = $(
                             "<div data-role='controlgroup ui-block-b' >" +
-                            "<button type='button' data-theme='b' data-icon='arrow-r' data-mini='true'>ELSE</button>" +
+                            "<button type='button' data-theme='b' data-icon='arrow-r' data-mini='true' id='select_else" + counter + "' class='select_logic" + counter + "'>ELSE</button>" +
                             "</div>");
                         break;
                     case 'ELIF':
                         apphtml = $(
                             "<div data-role='controlgroup ui-block-b' >" +
-                            "<button type='button' data-theme='b' data-icon='arrow-r' data-mini='true'>ELIF</button>" +
+                            "<button type='button' data-theme='b' data-icon='arrow-r' data-mini='true' id='select_elif" + counter + "' class='select_logic" + counter + "'>ELIF</button>" +
                             "</div>");
                         break;
                     case 'FOR':
                         apphtml = $(
                             "<div data-role='controlgroup ui-block-b' >" +
-                            "<button type='button' data-theme='b' data-icon='arrow-r' data-mini='true'>FOR</button>" +
+                            "<button type='button' data-theme='b' data-icon='arrow-r' data-mini='true' id='select_for" + counter + "' class='select_logic" + counter + "'>FOR</button>" +
                             "</div>");
                         break;
                 }
 
-                $ele = $(apphtml).prependTo($(e.target).parent().parent().parent().parent().parent()).trigger("create");
-                $ele.attr("id", "select-extention" + counter);
-                $ele.attr('disabled', true);
+                $(apphtml).prependTo($(e.target).parent().parent().parent().parent().parent()).trigger("create");
+                //$ele.attr('disabled', true); //추가된거 Disable하는 로직인가?
             }
             if (opt == 'END') {
                 var $ele,
                     apphtml = $(
                         "<div data-role='controlgroup ui-block-b' >" +
-                        "<button type='button' data-theme='b' data-icon='arrow-l' data-mini='true'>END</button>" +
+                        "<button type='button' data-theme='b' data-icon='arrow-l' data-mini='true' id='select_end" + counter + "' class='select_logic" + counter + "'>END</button>" +
                         "</div>");
 
                 $ele = $(apphtml).appendTo($(e.target).parent().parent().parent().parent().parent()).trigger("create");
@@ -492,6 +495,17 @@ $(function () {
                 "<option value='FOR'>FOR</option>" +
                 "<option value='END'>END</option>" +
                 "</select>" +
+                "</div>" +
+                "<div data-role='ui-field-contain' id='div_select"+ counter + "' hidden>" +
+                "<label for='select-extention' class='select ui-hidden-accessible'>Select extention</label>"+
+                "<select name='select-extention' class='select-extention' id='select_extention1'>"+
+                "<option>Select Extention</option>"+
+                "<option value='TXT'>TXT</option>"+
+                "<option value='PNG'>PNG</option>"+
+                "<option value='PICKLE'>PICKLE</option>"+
+                "<option value='JSON'>JSON</option>"+
+                "<option value='PDF'>PDF</option>"+
+                "</select>"+
                 "</div>" +
                 "<div data-role='ui-field-contain ui-block-b' >" +
                 "<label class='information'>Contents</label></div> " +
