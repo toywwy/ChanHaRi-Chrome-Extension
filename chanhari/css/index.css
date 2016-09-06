@@ -1,0 +1,106 @@
+/*body {
+        width: 2000px;
+        height: 4000px;
+}	*/
+
+/*크기고정*/
+
+body {
+  min-width: 800px;
+  padding-top: 70px;
+  padding-bottom: 30px;
+}
+
+/* Finesse the page header spacing */
+.page-header {
+  margin-bottom: 30px;
+}
+.page-header .lead {
+  margin-bottom: 10px;
+}
+
+
+/* Non-responsive overrides
+ *
+ * Utilitze the following CSS to disable the responsive-ness of the container,
+ * grid system, and navbar.
+ */
+
+/* Reset the container */
+.container {
+  width: 800px;
+  max-width: none !important;
+}
+
+/* Demonstrate the grids */
+.col-xs-4 {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #eee;
+  background-color: rgba(86,61,124,.15);
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2);
+}
+
+
+
+/* 색상 바꾸기*/
+
+/*.ui-bar-b, .ui-page-theme-b .ui-bar-inherit, html .ui-bar-b .ui-bar-inherit, html .ui-body-b .ui-bar-inherit, html body .ui-group-theme-b .ui-bar-inherit {
+   background-color: #5983fd;
+    
+}*/
+
+.ui-page-theme-b .ui-btn.ui-btn-active, html .ui-bar-b .ui-btn.ui-btn-active, html .ui-body-b .ui-btn.ui-btn-active, html body .ui-group-theme-b .ui-btn.ui-btn-active, html head+body .ui-btn.ui-btn-b.ui-btn-active, .ui-page-theme-b .ui-checkbox-on:after, html .ui-bar-b .ui-checkbox-on:after, html .ui-body-b .ui-checkbox-on:after, html body .ui-group-theme-b .ui-checkbox-on:after, .ui-btn.ui-checkbox-on.ui-btn-b:after, .ui-page-theme-b .ui-flipswitch-active, html .ui-bar-b .ui-flipswitch-active, html .ui-body-b .ui-flipswitch-active, html body .ui-group-theme-b .ui-flipswitch-active, html body .ui-flipswitch.ui-bar-b.ui-flipswitch-active, .ui-page-theme-b .ui-slider-track .ui-btn-active, html .ui-bar-b .ui-slider-track .ui-btn-active, html .ui-body-b .ui-slider-track .ui-btn-active, html body .ui-group-theme-b .ui-slider-track .ui-btn-active, html body div.ui-slider-track.ui-body-b .ui-btn-active{
+  background-color: #5983fd;
+  border-color: #5983fd;
+  color: #fff;
+  text-shadow: 0 1px 0 #5856d6;
+}
+
+
+
+/*추가 제거*/
+/*.entry:not(:first-of-type)
+{
+    margin-top: 10px;
+}
+
+.glyphicon
+{
+    font-size: 12px;
+}*/
+
+.entry:not(:first-of-type)
+{
+    margin-top: 10px;
+}
+
+.glyphicon
+{
+    font-size: 12px;
+}
+
+.entry { border: 1px solid #c0c0c0; }
+
+
+
+/*run 버튼 마진*/
+.ui-grid-a>.ui-block-a, .ui-grid-a>.ui-block-b{
+  margin: 5px;
+  width: 48%
+}
+
+
+/*내부 액션 색상*/
+/*.ui-body-a, .ui-page-theme-a .ui-body-inherit, html .ui-bar-a .ui-body-inherit, html .ui-body-a .ui-body-inherit, html body .ui-group-theme-a .ui-body-inherit, html .ui-panel-page-container-a{
+  background-color: #fafafa
+}*/
+
+.ui-body-d, .ui-page-theme-d .ui-body-inherit, html .ui-bar-d .ui-body-inherit, html .ui-body-d .ui-body-inherit, html body .ui-group-theme-d .ui-body-inherit, html .ui-panel-page-container-d{
+  background-color: #fafafa
+}
+
+#align-center{
+  margin: 0 auto;
+}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/bar.css">
+    <script src="jquery.mobile-1.4.5/jquery-1.8.2.min.js"></script>
+    <script src="jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" href="themes/Bootstrap.css">
+    <link rel="stylesheet" href="jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css"/>
+    <link rel="stylesheet" href="themes/jquery.mobile.icons.min.css"/>
+
+    <!-- css -->
+    <link rel="stylesheet" href="css/index.css">
+    <!-- js -->
+
+</head>
+<body>
+<div data-role="page" data-theme="b">
+    <div data-role="header" data-position="fixed">
+        <h1>ChanHaRi Extension</h1>
+        <div data-role="navbar">
+            <ul>
+                <li><a data-icon="home" class="taskSelectFunction ui-btn-active" id="0" >Task1</a></li>
+                <li><a data-icon="star" class="taskSelectFunction" id="1" >Task2</a></li>
+                <li><a data-icon="grid" class="taskSelectFunction" id="2" >Task3</a></li>
+                <li><a data-icon="search" class="taskSelectFunction" id="3" >Task4</a></li>
+                <li><a data-icon="gear" class="taskSelectFunction" id="settings">Config</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div data-role="content" data-theme="a">
+
+        <form action="#" method="get">
+            <!-- 태스크가 들어가는 곳 -->
+            <form>
+                <div class="ui-body ui-body-d ui-corner-all">
+                    <p align="center">Let's make auto task with ChanHaRi !</p>
+                    <div data-role="controlgroup" id="my-controlgroup" style="overflow-y: scroll; height:400px;">
+
+                        <!-- items will be injected here -->
+                        <div class="defaultaction" id="form1">
+                            <!-- 안녕 -->
+                            <div class="ui-body ui-body-a ui-corner-all action-box">
+                                <div data-role="controlgroup" class="action-object">
+
+                                    <div data-role="ui-field-contain">
+                                        <label for="name">xPath:</label>
+                                        <input type="text" name="name" class="name" value="" id="x_path1"/>
+                                    </div>
+
+                                    <div data-role="ui-field-contain">
+                                        <label for="inputText">Text Input:</label>
+                                        <input type="text" name="inputText" class="inputText" value=""
+                                               id="input_text1"/>
+                                    </div>
+
+                                    <div data-role="ui-field-contain">
+                                        <label for="select-command"
+                                               class="select ui-hidden-accessible">Commands:</label>
+                                        <select name="select-command" class="select-command" data-native-menu="false"
+                                                id="select_command1">
+                                            <option>Select commands</option>
+                                            <option value="URL">URL</option>
+                                            <option value="INPUT">INPUT</option>
+                                            <option value="CLICK">CLICK</option>
+                                            <option value="CRAWLING">CRAWLING</option>
+                                            <option value="IF">IF</option>
+                                            <option value="ELIF">ELIF</option>
+                                            <option value="ELSE">ELSE</option>
+                                            <option value="FOR">FOR</option>
+                                            <option value="END">END</option>
+                                        </select>
+                                    </div>
+
+                                    <div data-role="ui-field-contain ui-block-b">
+                                        <label class="information">Contents</label></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+
+
+            <div style="float: left; width: 50%;">
+                <div class="ui-field-contain">
+                    <!-- <label for="prepend">Add item</label>
+                    <button id="prepend" data-mini="true" data-inline="true">Prepend</button> -->
+                    <label for="append" class="ui-hidden-accessible">Action</label>
+                    <button id="append" data-theme="e" data-icon="plus" data-mini="true" data-inline="true"
+                            align="right">Add
+                    </button>
+                    <button id="delete" data-theme="c" data-icon="minus" data-mini="true" data-inline="true"
+                            align="right">Delete
+                    </button>
+                    <button id="clear" data-theme="a" data-icon="refresh" data-mini="true" data-inline="true"
+                            align="right">Clear
+                    </button>
+                </div>
+            </div>
+
+
+        </form>
+
+        <div style="float: right; width: 50%;  ">
+            <!-- left right 버튼 -->
+            <div class="ui-field-contain" style="float: right;">
+                <label for="left" class="ui-hidden-accessible">Left</label>
+                <button id="left" data-theme="b" data-icon="arrow-l" data-mini="true" data-inline="true" align="right">
+                    Left
+                </button>
+                <button id="right" data-theme="b" data-icon="arrow-r" data-mini="true" data-inline="true" align="right">
+                    Right
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <fieldset class="ui-grid-a">
+        <div class="ui-block-a">
+            <button data-theme="d" id="run">Run</button>
+        </div>
+        <div class="ui-block-b">
+            <button data-theme="e" id="save">Save</button>
+        </div>
+    </fieldset>
+
+</div>
+
+<div id="query-box">
+    <div class="box-name">Query</div>
+    <textarea id="query"></textarea>
+</div>
+<div id="results-box">
+    <div class="box-name">Results (<span id="node-count"></span>)</div>
+    <textarea id="results" readonly="readonly"></textarea>
+</div>
+<script type="text/javascript" src="js/bar.js"></script>
+<script type="text/javascript" src="js/content.js"></script>
+</body>
+</html>

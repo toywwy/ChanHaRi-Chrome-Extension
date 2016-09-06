@@ -1,0 +1,22 @@
+[
+     {
+        "xpath": "",
+        "command": "URL",
+        "contents": ["http://www.naver.com"]
+    },
+    {
+        "xpath": "//*[@id='id']",
+        "command": "INPUT",
+        "contents": [ "decision_1", "seongha", "juri" ]
+    },
+    {
+        "xpath": "//*[@id='pw']",
+        "command": "INPUT",
+        "contents": [ "123123" ]
+    },
+    {
+        "xpath": "//*[@id='frmNIDLogin']/fieldset/span/input",
+        "command": "CLICK",
+        "contents": [ ]
+    }
+]

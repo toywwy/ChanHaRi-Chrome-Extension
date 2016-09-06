@@ -1,0 +1,33 @@
+{
+  "manifest_version": 2,
+  "name": "ChanHaRi Extension",
+  "version": "2.0.2",
+  "description": "make it chrome extension macro using ChanHaRi",
+  "permissions": [
+  "storage"
+],
+  "background": {
+    "page": "background.html"
+  },
+  "browser_action": {
+    "default_icon": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "css": ["css/content.css"],
+      "js": ["js/content.js"]
+    }
+  ],
+  "icons": {
+    "16": "icon.png",
+    "32": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "web_accessible_resources": [
+    "css/bar.css",
+    "bar.html",
+    "js/bar.js"
+  ]
+}
